@@ -1,6 +1,8 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dao.Model;
 
@@ -19,15 +21,15 @@ public class HandleEvent implements EventListener {
     }
 
     @Override
-    public void them(String loaiHangHoa, String maHangHoa, String tenHangHoa, int soHangHoaTonKho, float giaNhapHangHoa,
-            String ngayHangHoaNhapKho) {
+    public void them(String loaiHangHoa, String maHangHoa, String tenHangHoa, int soHangHoaTonKho, int giaNhapHangHoa,
+            Date ngayHangHoaNhapKho) {
         sanPham.add(new Model(sanPham.size() + 1, loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
                 ngayHangHoaNhapKho));
         show();
     }
 
     @Override
-    public void sua(String tenHangHoa, int soHangHoaTonKho, float giaNhapHangHoa, String ngayHangHoaNhapKho) {
+    public void sua(String tenHangHoa, int soHangHoaTonKho, int giaNhapHangHoa, Date ngayHangHoaNhapKho) {
         sanPhamSua.setTenHangHoa(tenHangHoa);
         sanPhamSua.setSoHangHoaTonKho(soHangHoaTonKho);
         sanPhamSua.setGiaNhapHangHoa(giaNhapHangHoa);
@@ -42,24 +44,94 @@ public class HandleEvent implements EventListener {
     @Override
     public void xoa(String maSo) {
         sanPham.remove(showEachArrays(sanPham, maSo));
+        show();
     }
 
     @Override
-    public void timKiem(String maSo) {
-
-        int index = binarySearch(sanPham, 0, sanPham.size() - 1, decodeASCII(maSo));
-        showModel(sanPham.get(index));
+    public void timKiemLoaiHangHoa(String loaiHangHoa) {
+        ArrayList<Model> sanPhamTimKiemLoai = new ArrayList<>();
+        for (Model model : sanPham) {
+            if (model.getLoaiHangHoa().equals(loaiHangHoa)) {
+                sanPhamTimKiemLoai.add(model);
+            }
+        }
+        showNewArrayList(sanPhamTimKiemLoai);
     }
 
     @Override
-    public void sapXep() {
-        // TODO Auto-generated method stub
+    public void sapXepTheoGia(boolean aBoolean) {
+        if (aBoolean) {
+            String tempLoaiHangHoa = "";
+            String tempMaHangHoa = "";
+            String tempTenHangHoa = "";
+            int tempSoHangHoaTonKho = 0;
+            int tempGiaNhapHangHoa = 0;
+            Date tempNgayNhapKho = new Date();
+            for (int i = 0; i < sanPham.size() - 1; i++) {
+                for (int j = 0; j < sanPham.size() - 1 - i; j++) {
+                    if (sanPham.get(j).getGiaNhapHangHoa() > sanPham.get(j + 1).getGiaNhapHangHoa()) {
+                        tempLoaiHangHoa = sanPham.get(j).getLoaiHangHoa();
+                        tempMaHangHoa = sanPham.get(j).getMaHangHoa();
+                        tempTenHangHoa = sanPham.get(j).getTenHangHoa();
+                        tempSoHangHoaTonKho = sanPham.get(j).getSoHangHoaTonKho();
+                        tempGiaNhapHangHoa = sanPham.get(j).getGiaNhapHangHoa();
+                        tempNgayNhapKho = sanPham.get(j).getNgayHangHoaNhapKho();
 
-    }
+                        sanPham.get(j).setLoaiHangHoa(sanPham.get(j + 1).getLoaiHangHoa());
+                        sanPham.get(j).setMaHangHoa(sanPham.get(j + 1).getMaHangHoa());
+                        sanPham.get(j).setTenHangHoa(sanPham.get(j + 1).getTenHangHoa());
+                        sanPham.get(j).setSoHangHoaTonKho(sanPham.get(j + 1).getSoHangHoaTonKho());
+                        sanPham.get(j).setGiaNhapHangHoa(sanPham.get(j + 1).getGiaNhapHangHoa());
+                        sanPham.get(j).setNgayHangHoaNhapKho(sanPham.get(j + 1).getNgayHangHoaNhapKho());
 
-    @Override
-    public void thongKe() {
-        // TODO Auto-generated method stub
+                        sanPham.get(j + 1).setLoaiHangHoa(tempLoaiHangHoa);
+                        sanPham.get(j + 1).setMaHangHoa(tempMaHangHoa);
+                        sanPham.get(j + 1).setTenHangHoa(tempTenHangHoa);
+                        sanPham.get(j + 1).setSoHangHoaTonKho(tempSoHangHoaTonKho);
+                        sanPham.get(j + 1).setGiaNhapHangHoa(tempGiaNhapHangHoa);
+                        sanPham.get(j + 1).setNgayHangHoaNhapKho(tempNgayNhapKho);
+
+                    }
+                }
+            }
+            showNewArrayList(sanPham);
+        }
+        if (!aBoolean) {
+            String tempLoaiHangHoa = "";
+            String tempMaHangHoa = "";
+            String tempTenHangHoa = "";
+            int tempSoHangHoaTonKho = 0;
+            int tempGiaNhapHangHoa = 0;
+            Date tempNgayNhapKho = new Date();
+            for (int i = 0; i < sanPham.size() - 1; i++) {
+                for (int j = 0; j < sanPham.size() - 1 - i; j++) {
+                    if (sanPham.get(j).getGiaNhapHangHoa() < sanPham.get(j + 1).getGiaNhapHangHoa()) {
+                        tempLoaiHangHoa = sanPham.get(j).getLoaiHangHoa();
+                        tempMaHangHoa = sanPham.get(j).getMaHangHoa();
+                        tempTenHangHoa = sanPham.get(j).getTenHangHoa();
+                        tempSoHangHoaTonKho = sanPham.get(j).getSoHangHoaTonKho();
+                        tempGiaNhapHangHoa = sanPham.get(j).getGiaNhapHangHoa();
+                        tempNgayNhapKho = sanPham.get(j).getNgayHangHoaNhapKho();
+
+                        sanPham.get(j).setLoaiHangHoa(sanPham.get(j + 1).getLoaiHangHoa());
+                        sanPham.get(j).setMaHangHoa(sanPham.get(j + 1).getMaHangHoa());
+                        sanPham.get(j).setTenHangHoa(sanPham.get(j + 1).getTenHangHoa());
+                        sanPham.get(j).setSoHangHoaTonKho(sanPham.get(j + 1).getSoHangHoaTonKho());
+                        sanPham.get(j).setGiaNhapHangHoa(sanPham.get(j + 1).getGiaNhapHangHoa());
+                        sanPham.get(j).setNgayHangHoaNhapKho(sanPham.get(j + 1).getNgayHangHoaNhapKho());
+
+                        sanPham.get(j + 1).setLoaiHangHoa(tempLoaiHangHoa);
+                        sanPham.get(j + 1).setMaHangHoa(tempMaHangHoa);
+                        sanPham.get(j + 1).setTenHangHoa(tempTenHangHoa);
+                        sanPham.get(j + 1).setSoHangHoaTonKho(tempSoHangHoaTonKho);
+                        sanPham.get(j + 1).setGiaNhapHangHoa(tempGiaNhapHangHoa);
+                        sanPham.get(j + 1).setNgayHangHoaNhapKho(tempNgayNhapKho);
+
+                    }
+                }
+            }
+            showNewArrayList(sanPham);
+        }
 
     }
 
@@ -69,7 +141,7 @@ public class HandleEvent implements EventListener {
             System.out.println("STT: " + m.getSoThuTu() + " Loai hang: " + m.getLoaiHangHoa() + " Ma hang hoa: "
                     + m.getMaHangHoa() + " Ten hang hoa: " + m.getTenHangHoa() + " So hang ton kho: "
                     + m.getSoHangHoaTonKho() + " Gia nhap hang hoa: " + m.getGiaNhapHangHoa() + " Ngay nhap hang hoa: "
-                    + m.getNgayHangHoaNhapKho());
+                    + new SimpleDateFormat("dd/MM/yyyy").format(m.getNgayHangHoaNhapKho()));
         }
     }
 
@@ -89,7 +161,7 @@ public class HandleEvent implements EventListener {
         System.out.println("STT: " + m.getSoThuTu() + " Loai hang: " + m.getLoaiHangHoa() + " Ma hang hoa: "
                 + m.getMaHangHoa() + " Ten hang hoa: " + m.getTenHangHoa() + " So hang ton kho: "
                 + m.getSoHangHoaTonKho() + " Gia nhap hang hoa: " + m.getGiaNhapHangHoa() + " Ngay nhap hang hoa: "
-                + m.getNgayHangHoaNhapKho());
+                + new SimpleDateFormat("dd/MM/yyyy").format(m.getNgayHangHoaNhapKho()));
     }
 
     private int showEachArrays(ArrayList<Model> models, String maSo) {
@@ -101,28 +173,150 @@ public class HandleEvent implements EventListener {
         return 0;
     }
 
-    private int binarySearch(ArrayList<Model> aModels, int l, int r, int x) {
-        if (r >= 1) {
-            int mid = l + (r - l) / 2;
-
-            if (decodeASCII(aModels.get(mid).getMaHangHoa()) == x) {
-                return mid;
+    @Override
+    public void timKiemKhoangGia(int giaBatDau, int giaKetThuc) {
+        ArrayList<Model> models = new ArrayList<>();
+        for (Model model : sanPham) {
+            if (model.getGiaNhapHangHoa() >= giaBatDau && model.getGiaNhapHangHoa() <= giaKetThuc) {
+                models.add(model);
             }
-            if (decodeASCII(aModels.get(mid).getMaHangHoa()) > x) {
-                return binarySearch(aModels, l, mid - 1, x);
-            }
-            return binarySearch(aModels, l, mid + 1, x);
         }
-        return 0;
+        showNewArrayList(models);
+    }
+
+    public void showNewArrayList(ArrayList<Model> models) {
+        for (Model m : models) {
+            System.out.println("STT: " + m.getSoThuTu() + " Loai hang: " + m.getLoaiHangHoa() + " Ma hang hoa: "
+                    + m.getMaHangHoa() + " Ten hang hoa: " + m.getTenHangHoa() + " So hang ton kho: "
+                    + m.getSoHangHoaTonKho() + " Gia nhap hang hoa: " + m.getGiaNhapHangHoa() + " Ngay nhap hang hoa: "
+                    + new SimpleDateFormat("dd/MM/yyyy").format(m.getNgayHangHoaNhapKho()));
+        }
+    }
+
+    @Override
+    public void timKiemNgay(String maSo) {
+        // TODO Auto-generated method stub
 
     }
 
-    private int decodeASCII(String toString) {
-        StringBuilder stringBuilder = new StringBuilder();
-        char[] text = toString.trim().toCharArray();
-        for (char ch : text) {
-            stringBuilder.append((byte) ch);
+    @Override
+    public void thongKeTongSoLuongHangHoa() {
+        int tongSoLuong = 0;
+        for (Model model : sanPham) {
+            tongSoLuong = tongSoLuong + model.getSoHangHoaTonKho();
         }
-        return Integer.parseInt(stringBuilder.toString());
+        System.out.println("Tong so luong hang hoa: " + tongSoLuong);
+    }
+
+    @Override
+    public void thongKeGiaTriNhapKho() {
+        int tongSoLuong = 0;
+        for (Model model : sanPham) {
+            tongSoLuong = tongSoLuong + model.getGiaNhapHangHoa();
+        }
+        System.out.println("Tong so luong hang hoa: " + tongSoLuong + "đ");
+    }
+
+    @Override
+    public void thongKeSoLuongTungLoaiHang() {
+        int tongSoLuongTP = 0;
+        int tongSoLuongSS = 0;
+        int tongSoLuongDM = 0;
+        for (Model model : sanPham) {
+            if (model.getLoaiHangHoa().equals("TP")) {
+                tongSoLuongTP = tongSoLuongTP + model.getSoHangHoaTonKho();
+            }
+        }
+        System.out.println("Tong so luong hang hoa thuc pham: " + tongSoLuongTP);
+        for (Model model : sanPham) {
+            if (model.getLoaiHangHoa().equals("SS")) {
+                tongSoLuongSS = tongSoLuongSS + model.getSoHangHoaTonKho();
+            }
+        }
+        System.out.println("Tong so luong hang hoa san su: " + tongSoLuongSS);
+        for (Model model : sanPham) {
+            if (model.getLoaiHangHoa().equals("DM")) {
+                tongSoLuongDM = tongSoLuongDM + model.getSoHangHoaTonKho();
+            }
+        }
+        System.out.println("Tong so luong hang hoa dien may: " + tongSoLuongDM);
+    }
+
+    @Override
+    public void sapXepTheoNgay(boolean aBoolean) {
+        if (aBoolean) {
+            String tempLoaiHangHoa = "";
+            String tempMaHangHoa = "";
+            String tempTenHangHoa = "";
+            int tempSoHangHoaTonKho = 0;
+            int tempGiaNhapHangHoa = 0;
+            Date tempNgayNhapKho = new Date();
+            for (int i = 0; i < sanPham.size() - 1; i++) {
+                for (int j = 0; j < sanPham.size() - 1 - i; j++) {
+                    if (sanPham.get(j).getNgayHangHoaNhapKho().getTime() > sanPham.get(j + 1).getNgayHangHoaNhapKho()
+                            .getTime()) {
+                        tempLoaiHangHoa = sanPham.get(j).getLoaiHangHoa();
+                        tempMaHangHoa = sanPham.get(j).getMaHangHoa();
+                        tempTenHangHoa = sanPham.get(j).getTenHangHoa();
+                        tempSoHangHoaTonKho = sanPham.get(j).getSoHangHoaTonKho();
+                        tempGiaNhapHangHoa = sanPham.get(j).getGiaNhapHangHoa();
+                        tempNgayNhapKho = sanPham.get(j).getNgayHangHoaNhapKho();
+
+                        sanPham.get(j).setLoaiHangHoa(sanPham.get(j + 1).getLoaiHangHoa());
+                        sanPham.get(j).setMaHangHoa(sanPham.get(j + 1).getMaHangHoa());
+                        sanPham.get(j).setTenHangHoa(sanPham.get(j + 1).getTenHangHoa());
+                        sanPham.get(j).setSoHangHoaTonKho(sanPham.get(j + 1).getSoHangHoaTonKho());
+                        sanPham.get(j).setGiaNhapHangHoa(sanPham.get(j + 1).getGiaNhapHangHoa());
+                        sanPham.get(j).setNgayHangHoaNhapKho(sanPham.get(j + 1).getNgayHangHoaNhapKho());
+
+                        sanPham.get(j + 1).setLoaiHangHoa(tempLoaiHangHoa);
+                        sanPham.get(j + 1).setMaHangHoa(tempMaHangHoa);
+                        sanPham.get(j + 1).setTenHangHoa(tempTenHangHoa);
+                        sanPham.get(j + 1).setSoHangHoaTonKho(tempSoHangHoaTonKho);
+                        sanPham.get(j + 1).setGiaNhapHangHoa(tempGiaNhapHangHoa);
+                        sanPham.get(j + 1).setNgayHangHoaNhapKho(tempNgayNhapKho);
+
+                    }
+                }
+            }
+            showNewArrayList(sanPham);
+        }
+        if (!aBoolean) {
+            String tempLoaiHangHoa = "";
+            String tempMaHangHoa = "";
+            String tempTenHangHoa = "";
+            int tempSoHangHoaTonKho = 0;
+            int tempGiaNhapHangHoa = 0;
+            Date tempNgayNhapKho = new Date();
+            for (int i = 0; i < sanPham.size() - 1; i++) {
+                for (int j = 0; j < sanPham.size() - 1 - i; j++) {
+                    if (sanPham.get(j).getNgayHangHoaNhapKho().getTime() < sanPham.get(j + 1).getNgayHangHoaNhapKho()
+                            .getTime()) {
+                        tempLoaiHangHoa = sanPham.get(j).getLoaiHangHoa();
+                        tempMaHangHoa = sanPham.get(j).getMaHangHoa();
+                        tempTenHangHoa = sanPham.get(j).getTenHangHoa();
+                        tempSoHangHoaTonKho = sanPham.get(j).getSoHangHoaTonKho();
+                        tempGiaNhapHangHoa = sanPham.get(j).getGiaNhapHangHoa();
+                        tempNgayNhapKho = sanPham.get(j).getNgayHangHoaNhapKho();
+
+                        sanPham.get(j).setLoaiHangHoa(sanPham.get(j + 1).getLoaiHangHoa());
+                        sanPham.get(j).setMaHangHoa(sanPham.get(j + 1).getMaHangHoa());
+                        sanPham.get(j).setTenHangHoa(sanPham.get(j + 1).getTenHangHoa());
+                        sanPham.get(j).setSoHangHoaTonKho(sanPham.get(j + 1).getSoHangHoaTonKho());
+                        sanPham.get(j).setGiaNhapHangHoa(sanPham.get(j + 1).getGiaNhapHangHoa());
+                        sanPham.get(j).setNgayHangHoaNhapKho(sanPham.get(j + 1).getNgayHangHoaNhapKho());
+
+                        sanPham.get(j + 1).setLoaiHangHoa(tempLoaiHangHoa);
+                        sanPham.get(j + 1).setMaHangHoa(tempMaHangHoa);
+                        sanPham.get(j + 1).setTenHangHoa(tempTenHangHoa);
+                        sanPham.get(j + 1).setSoHangHoaTonKho(tempSoHangHoaTonKho);
+                        sanPham.get(j + 1).setGiaNhapHangHoa(tempGiaNhapHangHoa);
+                        sanPham.get(j + 1).setNgayHangHoaNhapKho(tempNgayNhapKho);
+
+                    }
+                }
+            }
+            showNewArrayList(sanPham);
+        }
     }
 }

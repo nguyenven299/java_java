@@ -1,10 +1,10 @@
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import controller.EventListener;
 import controller.HandleEvent;
 import dao.Database;
-import dao.Model;
 
 public class App {
 
@@ -16,6 +16,7 @@ public class App {
         listener.setData(Database.getData());
         Scanner input = new Scanner(System.in);
         showCase(input);
+
         switch (cas) {
         case "1": {
             System.out.println("Loai hang hoa:");
@@ -27,16 +28,18 @@ public class App {
             System.out.println("so luong:");
             int soHangHoaTonKho = input.nextInt();
             System.out.println("gia:");
-            Float giaNhapHangHoa = input.nextFloat();
-            System.out.println("ngay:");
+            int giaNhapHangHoa = input.nextInt();
+            System.out.println("ngay dd/mm/yyyy:");
             String ngayHangHoaNhapKho = input.nextLine();
-            listener.them(loaHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa, ngayHangHoaNhapKho);
+            Date formatter = new SimpleDateFormat("dd/MM/yyyy").parse(ngayHangHoaNhapKho);
+            listener.them(loaHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa, formatter);
         }
             main(args);
             break;
         case "2": {
             System.out.println("Ma so:");
             String maSo = input.nextLine();
+
             listener.xoa(maSo);
         }
             break;
@@ -50,28 +53,98 @@ public class App {
             System.out.println("So luong:");
             int soHangHoaTonKho = input.nextInt();
             System.out.println("Gia:");
-            Float giaNhapHangHoa = input.nextFloat();
+            int giaNhapHangHoa = input.nextInt();
             System.out.println("Ngay:");
             String ngayHangHoaNhapKho = input.nextLine();
-
-            listener.sua(tenHangHoa, soHangHoaTonKho, giaNhapHangHoa, ngayHangHoaNhapKho);
+            Date formatter = new SimpleDateFormat("dd/MM/yyyy").parse(ngayHangHoaNhapKho);
+            listener.sua(tenHangHoa, soHangHoaTonKho, giaNhapHangHoa, formatter);
         }
             break;
         case "4": {
-            System.out.println("Ma so can tim:");
-            String maHangHoa = input.nextLine();
-            listener.timKiem(maHangHoa);
+            System.out.println("1: Tim kiem theo loai; 2: Tim kiem theo ngay nhap; 3: Khoang gia can tim:");
+            String timKiem = input.nextLine();
+            switch (timKiem) {
+            case "1": {
+                System.out.println("Loai hang hoa can tim:");
+                String loaiHangHoa = input.nextLine();
+
+                listener.timKiemLoaiHangHoa(loaiHangHoa);
+            }
+                break;
+            case "2": {
+                System.out.println("Gia can tim:");
+                String maHangHoa = input.nextLine();
+
+                listener.timKiemNgay(maHangHoa);
+            }
+                break;
+            case "3": {
+                System.out.println("Gia bat dau:");
+                int giaBatDau = input.nextInt();
+                System.out.println("Gia ket thuc:");
+                int giaKetThuc = input.nextInt();
+
+                listener.timKiemKhoangGia(giaBatDau, giaKetThuc);
+            }
+                break;
+            }
+        }
+            break;
+        case "5": {
+            System.out.println("1: Sap xep theo gia nhap; 2: Sap xep theo ngay nhap:");
+            String sapXep = input.nextLine();
+            switch (sapXep) {
+            case "1": {
+                System.out.println("1: Sap xep tang dan; 2: Sap xep theo giam dan:");
+                int aBoolean = input.nextInt();
+                if (aBoolean == 1) {
+                    listener.sapXepTheoGia(true);
+                } else if (aBoolean == 2) {
+                    listener.sapXepTheoGia(false);
+                }
+            }
+                break;
+            case "2": {
+                System.out.println("1: Sap xep tang dan; 2: Sap xep theo giam dan:");
+                int aBoolean = input.nextInt();
+                if (aBoolean == 1) {
+                    listener.sapXepTheoNgay(true);
+                } else if (aBoolean == 2) {
+                    listener.sapXepTheoNgay(false);
+                }
+            }
+                break;
+            }
+        }
+            break;
+        case "6": {
+            System.out.println(
+                    "1:Thong ke tong so luong hang hoa; 2: Thong ke tong gia tri nhap kho; 3: Thong ke so luong tung loai hang:");
+            int thongKe = input.nextInt();
+            if (thongKe > 0 && thongKe < 4) {
+                switch (thongKe) {
+                case 1: {
+                    listener.thongKeTongSoLuongHangHoa();
+                }
+                    break;
+                case 2: {
+                    listener.thongKeGiaTriNhapKho();
+                }
+                    break;
+                case 3: {
+                    listener.thongKeSoLuongTungLoaiHang();
+                }
+                }
+            }
+
         }
         }
+
     }
 
     private static void showCase(Scanner input) {
 
         System.out.print("Menu:\n1: Them; 2: Xoa; 3: Sua; 4: Tim kiem; 5: Sap xep; 6: Thong Ke: \nMoi ban nhap: ");
         cas = input.nextLine();
-    }
-
-    private static void show(ArrayList<Model> sanPham) {
-
     }
 }

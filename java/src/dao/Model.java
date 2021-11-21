@@ -1,16 +1,18 @@
 package dao;
 
+import java.util.Date;
+
 public class Model {
     private int stt;
     private String loaiHangHoa = "";
     private String maHangHoa = "";
     private String tenHangHoa = "";
     private int soHangHoaTonKho = 0;
-    private float giaNhapHangHoa = 0;
-    private String ngayHangHoaNhapKho = "";
+    private int giaNhapHangHoa = 0;
+    private Date ngayHangHoaNhapKho;
 
     public Model(int soThuTu, String loaHangHoa, String maHangHoa, String tenHangHoa, int soHangHoaTonKho,
-            float giaNhapHangHoa, String ngayHangHoaNhapKho) {
+            int giaNhapHangHoa, Date ngayHangHoaNhapKho) {
         this.stt = soThuTu;
         this.loaiHangHoa = loaHangHoa;
         this.maHangHoa = maHangHoa;
@@ -35,11 +37,11 @@ public class Model {
         this.soHangHoaTonKho = soHangHoaTonKho;
     }
 
-    public void setGiaNhapHangHoa(Float giaNhapHangHoa) {
+    public void setGiaNhapHangHoa(int giaNhapHangHoa) {
         this.giaNhapHangHoa = giaNhapHangHoa;
     }
 
-    public void setNgayHangHoaNhapKho(String ngayHangHoaNhapKho) {
+    public void setNgayHangHoaNhapKho(Date ngayHangHoaNhapKho) {
         this.ngayHangHoaNhapKho = ngayHangHoaNhapKho;
     }
 
@@ -71,11 +73,11 @@ public class Model {
         return soHangHoaTonKho;
     }
 
-    public float getGiaNhapHangHoa() {
+    public int getGiaNhapHangHoa() {
         return giaNhapHangHoa;
     }
 
-    public String getNgayHangHoaNhapKho() {
+    public Date getNgayHangHoaNhapKho() {
         return ngayHangHoaNhapKho;
     }
 }
