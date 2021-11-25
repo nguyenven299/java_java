@@ -31,11 +31,12 @@ public class App {
             int giaNhapHangHoa = input.nextInt();
             System.out.println("ngay dd/mm/yyyy:");
             String ngayHangHoaNhapKho = input.nextLine();
-            Date formatter = new SimpleDateFormat("dd/MM/yyyy").parse(ngayHangHoaNhapKho);
-            listener.them(loaHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa, formatter);
-        }
-            main(args);
+            System.out.println("Loai:");
+            String loai = input.nextLine();
+            listener.them(loaHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    new SimpleDateFormat("dd/MM/yyyy").parse(ngayHangHoaNhapKho), loai);
             break;
+        }
         case "2": {
             System.out.println("Ma so:");
             String maSo = input.nextLine();

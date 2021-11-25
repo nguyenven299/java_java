@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import dao.DienMay;
 import dao.Model;
+import dao.SanhSu;
+import dao.ThucPham;
 
 public class HandleEvent implements EventListener {
 
@@ -22,9 +25,22 @@ public class HandleEvent implements EventListener {
 
     @Override
     public void them(String loaiHangHoa, String maHangHoa, String tenHangHoa, int soHangHoaTonKho, int giaNhapHangHoa,
-            Date ngayHangHoaNhapKho) {
-        sanPham.add(new Model(sanPham.size() + 1, loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
-                ngayHangHoaNhapKho));
+            Date ngayHangHoaNhapKho, String loai) {
+        if (loaiHangHoa.length() != 2) {
+            System.out.println("Loai hang hoa khong hop le.");
+            return;
+        }
+        String str = String.valueOf(loaiHangHoa.charAt(0) + loaiHangHoa.charAt(1));
+        if (str.equals("TP")) {
+            sanPham.add(new ThucPham(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    ngayHangHoaNhapKho, loai));
+        } else if (str.equals("SS")) {
+            sanPham.add(new SanhSu(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    ngayHangHoaNhapKho, loai));
+        } else if (str.equals("DM")) {
+            sanPham.add(new DienMay(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    ngayHangHoaNhapKho, loai));
+        }
         show();
     }
 
@@ -137,11 +153,9 @@ public class HandleEvent implements EventListener {
 
     @Override
     public void show() {
-        for (Model m : sanPham) {
-            System.out.println("STT: " + m.getSoThuTu() + " Loai hang: " + m.getLoaiHangHoa() + " Ma hang hoa: "
-                    + m.getMaHangHoa() + " Ten hang hoa: " + m.getTenHangHoa() + " So hang ton kho: "
-                    + m.getSoHangHoaTonKho() + " Gia nhap hang hoa: " + m.getGiaNhapHangHoa() + " Ngay nhap hang hoa: "
-                    + new SimpleDateFormat("dd/MM/yyyy").format(m.getNgayHangHoaNhapKho()));
+        for (int i = 0; i < sanPham.size(); i++) {
+            System.out.println(sanPham.get(i).toString());
+            ;
         }
     }
 
@@ -158,10 +172,8 @@ public class HandleEvent implements EventListener {
     }
 
     private void showModel(Model m) {
-        System.out.println("STT: " + m.getSoThuTu() + " Loai hang: " + m.getLoaiHangHoa() + " Ma hang hoa: "
-                + m.getMaHangHoa() + " Ten hang hoa: " + m.getTenHangHoa() + " So hang ton kho: "
-                + m.getSoHangHoaTonKho() + " Gia nhap hang hoa: " + m.getGiaNhapHangHoa() + " Ngay nhap hang hoa: "
-                + new SimpleDateFormat("dd/MM/yyyy").format(m.getNgayHangHoaNhapKho()));
+        System.out.println(m.toString());
+        ;
     }
 
     private int showEachArrays(ArrayList<Model> models, String maSo) {
@@ -185,11 +197,9 @@ public class HandleEvent implements EventListener {
     }
 
     public void showNewArrayList(ArrayList<Model> models) {
-        for (Model m : models) {
-            System.out.println("STT: " + m.getSoThuTu() + " Loai hang: " + m.getLoaiHangHoa() + " Ma hang hoa: "
-                    + m.getMaHangHoa() + " Ten hang hoa: " + m.getTenHangHoa() + " So hang ton kho: "
-                    + m.getSoHangHoaTonKho() + " Gia nhap hang hoa: " + m.getGiaNhapHangHoa() + " Ngay nhap hang hoa: "
-                    + new SimpleDateFormat("dd/MM/yyyy").format(m.getNgayHangHoaNhapKho()));
+        for (int i = 0; i < models.size(); i++) {
+            System.out.println(models.get(i).toString());
+            ;
         }
     }
 

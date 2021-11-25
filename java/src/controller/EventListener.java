@@ -10,7 +10,7 @@ public interface EventListener {
     void setData(ArrayList<Model> sanPham);
 
     void them(String loaiHangHoa, String maHangHoa, String tenHangHoa, int soHangHoaTonKho, int giaNhapHangHoa,
-            Date ngayHangHoaNhapKho);
+            Date ngayHangHoaNhapKho,String loai);
 
     void sua(String tenHangHoa, int soHangHoaTonKho, int giaNhapHangHoa, Date ngayHangHoaNhapKho);
 
