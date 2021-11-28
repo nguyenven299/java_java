@@ -194,13 +194,19 @@ public class HandleEvent implements EventListener {
 
     @Override
     public void timKiemKhoangGia(int giaBatDau, int giaKetThuc) {
+        if (giaKetThuc < giaBatDau) {
+            System.out.println("Gia khong hop le.");
+            return;
+        }
+
         ArrayList<Model> models = new ArrayList<>();
         for (Model model : sanPham) {
             if (model.getGiaNhapHangHoa() >= giaBatDau && model.getGiaNhapHangHoa() <= giaKetThuc) {
                 models.add(model);
             }
         }
-        showNewArrayList(models);
+        if (models.size() > 0)
+            showNewArrayList(models);
     }
 
     public void showNewArrayList(ArrayList<Model> models) {
@@ -211,9 +217,21 @@ public class HandleEvent implements EventListener {
     }
 
     @Override
-    public void timKiemNgay(String maSo) {
-        // TODO Auto-generated method stub
-
+    public void timKiemNgay(Date ngayBatDau, Date ngayKetThuc) {
+        if (ngayKetThuc.getTime() < ngayBatDau.getTime()) {
+            System.out.println("Ngay khong hop le.");
+            return;
+        }
+        ArrayList<Model> models = new ArrayList<>();
+        for (Model model : sanPham) {
+            if (model.getNgayHangHoaNhapKho().getTime() >= ngayBatDau.getTime()
+                    && model.getNgayHangHoaNhapKho().getTime() <= ngayKetThuc.getTime()) {
+                models.add(model);
+            }
+        }
+        if (models.size() > 0) {
+            showNewArrayList(models);
+        }
     }
 
     @Override

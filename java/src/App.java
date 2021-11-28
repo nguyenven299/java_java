@@ -74,10 +74,11 @@ public class App {
             }
                 break;
             case "2": {
-                System.out.println("Gia can tim:");
-                String maHangHoa = input.nextLine();
-
-                listener.timKiemNgay(maHangHoa);
+                System.out.println("Ngay bat dau dd/mm/yyyy:");
+                String ngayBatDau = input.nextLine();
+                System.out.println("Ngay ket thuc dd/mm/yyyy:");
+                String ngayKetThuc = input.nextLine();
+                listener.timKiemNgay(new SimpleDateFormat("dd/MM/yyyy").parse(ngayBatDau),new SimpleDateFormat("dd/MM/yyyy").parse(ngayKetThuc));
             }
                 break;
             case "3": {
