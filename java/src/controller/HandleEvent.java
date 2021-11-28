@@ -90,7 +90,7 @@ public class HandleEvent implements EventListener {
                     if (sanPham.get(j).getGiaNhapHangHoa() > sanPham.get(j + 1).getGiaNhapHangHoa()) {
 
                         model = sanPham.get(j);
-                        sanPham.set(j + 1, sanPham.get(j + 1));
+                        sanPham.set(j, sanPham.get(j + 1));
                         sanPham.set(j + 1, model);
 
                     }
@@ -99,36 +99,14 @@ public class HandleEvent implements EventListener {
             showNewArrayList(sanPham);
         }
         if (!aBoolean) {
-            String tempLoaiHangHoa = "";
-            String tempMaHangHoa = "";
-            String tempTenHangHoa = "";
-            int tempSoHangHoaTonKho = 0;
-            int tempGiaNhapHangHoa = 0;
-            Date tempNgayNhapKho = new Date();
+            Model model = new Model();
             for (int i = 0; i < sanPham.size() - 1; i++) {
                 for (int j = 0; j < sanPham.size() - 1 - i; j++) {
                     if (sanPham.get(j).getGiaNhapHangHoa() < sanPham.get(j + 1).getGiaNhapHangHoa()) {
-                        tempLoaiHangHoa = sanPham.get(j).getLoaiHangHoa();
-                        tempMaHangHoa = sanPham.get(j).getMaHangHoa();
-                        tempTenHangHoa = sanPham.get(j).getTenHangHoa();
-                        tempSoHangHoaTonKho = sanPham.get(j).getSoHangHoaTonKho();
-                        tempGiaNhapHangHoa = sanPham.get(j).getGiaNhapHangHoa();
-                        tempNgayNhapKho = sanPham.get(j).getNgayHangHoaNhapKho();
 
-                        sanPham.get(j).setLoaiHangHoa(sanPham.get(j + 1).getLoaiHangHoa());
-                        sanPham.get(j).setMaHangHoa(sanPham.get(j + 1).getMaHangHoa());
-                        sanPham.get(j).setTenHangHoa(sanPham.get(j + 1).getTenHangHoa());
-                        sanPham.get(j).setSoHangHoaTonKho(sanPham.get(j + 1).getSoHangHoaTonKho());
-                        sanPham.get(j).setGiaNhapHangHoa(sanPham.get(j + 1).getGiaNhapHangHoa());
-                        sanPham.get(j).setNgayHangHoaNhapKho(sanPham.get(j + 1).getNgayHangHoaNhapKho());
-
-                        sanPham.get(j + 1).setLoaiHangHoa(tempLoaiHangHoa);
-                        sanPham.get(j + 1).setMaHangHoa(tempMaHangHoa);
-                        sanPham.get(j + 1).setTenHangHoa(tempTenHangHoa);
-                        sanPham.get(j + 1).setSoHangHoaTonKho(tempSoHangHoaTonKho);
-                        sanPham.get(j + 1).setGiaNhapHangHoa(tempGiaNhapHangHoa);
-                        sanPham.get(j + 1).setNgayHangHoaNhapKho(tempNgayNhapKho);
-
+                        model = sanPham.get(j);
+                        sanPham.set(j, sanPham.get(j + 1));
+                        sanPham.set(j + 1, model);
                     }
                 }
             }
