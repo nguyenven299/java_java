@@ -30,16 +30,23 @@ public class HandleEvent implements EventListener {
             System.out.println("Loai hang hoa khong hop le.");
             return;
         }
-        String str = String.valueOf(loaiHangHoa.charAt(0) + loaiHangHoa.charAt(1));
-        if (str.equals("TP")) {
-            sanPham.add(new ThucPham(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
-                    ngayHangHoaNhapKho, loai));
-        } else if (str.equals("SS")) {
-            sanPham.add(new SanhSu(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
-                    ngayHangHoaNhapKho, loai));
-        } else if (str.equals("DM")) {
-            sanPham.add(new DienMay(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
-                    ngayHangHoaNhapKho, loai));
+
+        if (loaiHangHoa.equals("TP")) {
+            ThucPham thucPham = new ThucPham(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    ngayHangHoaNhapKho, loai);
+            sanPham.add(thucPham);
+            showModel(thucPham);
+        } else if (loaiHangHoa.equals("SS")) {
+            SanhSu sanhSu = new SanhSu(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    ngayHangHoaNhapKho, loai);
+            sanPham.add(sanhSu);
+            showModel(sanhSu);
+        } else if (loaiHangHoa.equals("DM")) {
+            DienMay dienMay = new DienMay(loaiHangHoa, maHangHoa, tenHangHoa, soHangHoaTonKho, giaNhapHangHoa,
+                    ngayHangHoaNhapKho, loai);
+
+            sanPham.add(dienMay);
+            showModel(dienMay);
         }
         show();
     }
